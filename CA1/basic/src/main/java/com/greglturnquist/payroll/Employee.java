@@ -33,13 +33,23 @@ public class Employee {
 	private String lastName;
 	private String description;
 
-	private Employee() {}
+	private int jobYears;
 
-	public Employee(String firstName, String lastName, String description) {
+
+	public Employee(String firstName, String lastName, String description,int jobYears) throws InstantiationException {
+		if(!areParametersValid(firstName,lastName,description,jobYears)){
+			throw new InstantiationException("Invalid Parameters");
+		}
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.description = description;
+		this.jobYears = jobYears;
 	}
+
+	public Employee() {
+
+	}
+
 
 	@Override
 	public boolean equals(Object o) {
@@ -49,7 +59,8 @@ public class Employee {
 		return Objects.equals(id, employee.id) &&
 			Objects.equals(firstName, employee.firstName) &&
 			Objects.equals(lastName, employee.lastName) &&
-			Objects.equals(description, employee.description);
+			Objects.equals(description, employee.description) &&
+			Objects.equals(jobYears, employee.jobYears);
 	}
 
 	@Override
@@ -58,20 +69,14 @@ public class Employee {
 		return Objects.hash(id, firstName, lastName, description);
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public String getFirstName() {
 		return firstName;
 	}
 
 	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+		if(parameterIsValid(firstName)){
+			this.firstName = firstName;
+		}
 	}
 
 	public String getLastName() {
@@ -79,7 +84,9 @@ public class Employee {
 	}
 
 	public void setLastName(String lastName) {
-		this.lastName = lastName;
+		if(parameterIsValid(lastName)){
+			this.lastName = lastName;
+		}
 	}
 
 	public String getDescription() {
@@ -87,17 +94,45 @@ public class Employee {
 	}
 
 	public void setDescription(String description) {
-		this.description = description;
+		if(parameterIsValid(description)){
+			this.description = description;
+		}
 	}
+
+	public int getJobYears() {
+		return jobYears;
+	}
+
+	public void setJobYears(int jobYears) {
+		if(jobYearsAreValid(jobYears)){
+			this.jobYears = jobYears;
+		}
+
+	}
+
+	private boolean parameterIsValid(String firstName){
+		return firstName != null && !firstName.trim().isEmpty();
+	}
+
+	private boolean jobYearsAreValid(int jobYears){
+		return jobYears >= 0;
+	}
+
+	private boolean areParametersValid(String firstName, String lastName, String description,int jobYears){
+		return parameterIsValid(firstName) && parameterIsValid(lastName) && parameterIsValid(description) &&
+				jobYearsAreValid(jobYears);
+	}
+
 
 	@Override
 	public String toString() {
 		return "Employee{" +
-			"id=" + id +
-			", firstName='" + firstName + '\'' +
-			", lastName='" + lastName + '\'' +
-			", description='" + description + '\'' +
-			'}';
+				"id=" + id +
+				", firstName='" + firstName + '\'' +
+				", lastName='" + lastName + '\'' +
+				", description='" + description + '\'' +
+				", jobYears='" + jobYears + '\'' +
+				'}';
 	}
 }
 // end::code[]
