@@ -42,6 +42,9 @@ public class Employee {
 		if(!areParametersValid(firstName,lastName,description,jobYears,email)){
 			throw new InstantiationException("Invalid Parameters");
 		}
+		if(!emailIsValid(email)){
+			throw new InstantiationException("Invalid Parameters");
+		}
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.description = description;
@@ -118,7 +121,7 @@ public class Employee {
 	}
 
 	public void setEmail(String email) {
-		if(parameterIsValid(email)){
+		if(parameterIsValid(email) && emailIsValid(email)){
 			this.email = email;
 		}
 	}
@@ -134,6 +137,10 @@ public class Employee {
 	private boolean areParametersValid(String firstName, String lastName, String description,int jobYears,String email){
 		return parameterIsValid(firstName) && parameterIsValid(lastName) && parameterIsValid(description) &&
 				jobYearsAreValid(jobYears) && parameterIsValid(email);
+	}
+
+	private boolean emailIsValid(String email){
+		return email.contains("@");
 	}
 
 	@Override

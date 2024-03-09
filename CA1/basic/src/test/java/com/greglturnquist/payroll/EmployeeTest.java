@@ -68,6 +68,11 @@ class EmployeeTest {
     }
 
     @Test
+    void invalidEmailEmployee_InstantiationExceptionShouldBeThrown() {
+        assertInvalidEmployeeParameters_Exception("John", "Smith", "Sailor", 20,"potter..hotmail.com");
+    }
+
+    @Test
     void getFirstName() throws InstantiationException {
         String firstName = "John";
         String lastName = "Smith";
@@ -198,8 +203,20 @@ class EmployeeTest {
     }
 
     @Test
-    void setEmail_InvalidEmail()  {
+    void setEmail_EmptyEmail()  {
         String email = "";
+        // Arrange
+        Employee employee = new Employee();
+        // Act
+        employee.setEmail(email);
+        String result = employee.getEmail();
+        // Assert
+        assertNull(result);
+    }
+
+    @Test
+    void setEmail_InvalidEmail_EmailShouldNotBeUpdated()  {
+        String email = "potter..hotmail.com";
         // Arrange
         Employee employee = new Employee();
         // Act
