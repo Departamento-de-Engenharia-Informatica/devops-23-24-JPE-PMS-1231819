@@ -35,15 +35,18 @@ public class Employee {
 
 	private int jobYears;
 
+	private String email;
 
-	public Employee(String firstName, String lastName, String description,int jobYears) throws InstantiationException {
-		if(!areParametersValid(firstName,lastName,description,jobYears)){
+
+	public Employee(String firstName, String lastName, String description,int jobYears,String email) throws InstantiationException {
+		if(!areParametersValid(firstName,lastName,description,jobYears,email)){
 			throw new InstantiationException("Invalid Parameters");
 		}
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.description = description;
 		this.jobYears = jobYears;
+		this.email = email;
 	}
 
 	public Employee() {
@@ -110,6 +113,16 @@ public class Employee {
 
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		if(parameterIsValid(email)){
+			this.email = email;
+		}
+	}
+
 	private boolean parameterIsValid(String firstName){
 		return firstName != null && !firstName.trim().isEmpty();
 	}
@@ -118,11 +131,10 @@ public class Employee {
 		return jobYears >= 0;
 	}
 
-	private boolean areParametersValid(String firstName, String lastName, String description,int jobYears){
+	private boolean areParametersValid(String firstName, String lastName, String description,int jobYears,String email){
 		return parameterIsValid(firstName) && parameterIsValid(lastName) && parameterIsValid(description) &&
-				jobYearsAreValid(jobYears);
+				jobYearsAreValid(jobYears) && parameterIsValid(email);
 	}
-
 
 	@Override
 	public String toString() {
@@ -131,7 +143,8 @@ public class Employee {
 				", firstName='" + firstName + '\'' +
 				", lastName='" + lastName + '\'' +
 				", description='" + description + '\'' +
-				", jobYears='" + jobYears + '\'' +
+				", jobYears=" + jobYears +
+				", email='" + email + '\'' +
 				'}';
 	}
 }

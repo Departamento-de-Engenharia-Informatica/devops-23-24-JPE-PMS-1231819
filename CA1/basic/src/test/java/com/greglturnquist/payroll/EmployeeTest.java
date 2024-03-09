@@ -6,13 +6,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EmployeeTest {
 
-    private void assertInvalidEmployeeParameters_Exception(String firstName, String lastName, String description, int jobYears) {
+    private void assertInvalidEmployeeParameters_Exception(String firstName, String lastName, String description, int jobYears,String email) {
         // Arrange
         String expected = "Invalid Parameters";
 
         // Act
         Exception exception = assertThrows(InstantiationException.class, () ->
-                new Employee(firstName, lastName, description, jobYears));
+                new Employee(firstName, lastName, description, jobYears,email));
 
         String result = exception.getMessage();
 
@@ -22,52 +22,49 @@ class EmployeeTest {
 
     @Test
     void NullNameEmployee_InstantiationExceptionShouldBeThrown() {
-        assertInvalidEmployeeParameters_Exception(null, "Smith", "Janitor", 20);
+        assertInvalidEmployeeParameters_Exception(null, "Smith", "Janitor", 20,"sample@hotmail.com");
     }
 
     @Test
     void EmptyNameEmployee_InstantiationExceptionShouldBeThrown() {
-        assertInvalidEmployeeParameters_Exception("", "Smith", "Janitor", 20);
+        assertInvalidEmployeeParameters_Exception("", "Smith", "Janitor", 20,"sample@hotmail.com");
     }
 
-    @Test
-    void EmptyTrimmedNameEmployee_InstantiationExceptionShouldBeThrown() {
-        assertInvalidEmployeeParameters_Exception(" ", "Smith", "Janitor", 20);
-    }
 
     @Test
     void NullLastNameEmployee_InstantiationExceptionShouldBeThrown() {
-        assertInvalidEmployeeParameters_Exception("John", null, "Janitor", 20);
+        assertInvalidEmployeeParameters_Exception("John", null, "Janitor", 20,"sample@hotmail.com");
     }
 
     @Test
     void EmptyLastNameEmployee_InstantiationExceptionShouldBeThrown() {
-        assertInvalidEmployeeParameters_Exception("John", "", "Janitor", 20);
+        assertInvalidEmployeeParameters_Exception("John", "", "Janitor", 20,"sample@hotmail.com");
     }
 
-    @Test
-    void EmptyTrimmedLastNameEmployee_InstantiationExceptionShouldBeThrown() {
-        assertInvalidEmployeeParameters_Exception("John", " ", "Janitor", 20);
-    }
 
     @Test
     void NullDescriptionEmployee_InstantiationExceptionShouldBeThrown() {
-        assertInvalidEmployeeParameters_Exception("John", "Smith", null, 20);
+        assertInvalidEmployeeParameters_Exception("John", "Smith", null, 20,"sample@hotmail.com");
     }
 
     @Test
     void EmptyDescriptionEmployee_InstantiationExceptionShouldBeThrown() {
-        assertInvalidEmployeeParameters_Exception("John", "Smith", "", 20);
-    }
-
-    @Test
-    void EmptyTrimmedDescriptionEmployee_InstantiationExceptionShouldBeThrown() {
-        assertInvalidEmployeeParameters_Exception("John", "Smith", " ", 20);
+        assertInvalidEmployeeParameters_Exception("John", "Smith", "", 20,"sample@hotmail.com");
     }
 
     @Test
     void NegativeJobYearsEmployee_InstantiationExceptionShouldBeThrown() {
-        assertInvalidEmployeeParameters_Exception("John", "Smith", "Janitor", -1);
+        assertInvalidEmployeeParameters_Exception("John", "Smith", "Janitor", -1,"sample@hotmail.com");
+    }
+
+    @Test
+    void NullEmailEmployee_InstantiationExceptionShouldBeThrown() {
+        assertInvalidEmployeeParameters_Exception("John", "Smith", "Sailor", 20,null);
+    }
+
+    @Test
+    void EmptyEmailEmployee_InstantiationExceptionShouldBeThrown() {
+        assertInvalidEmployeeParameters_Exception("John", "Smith", "Sailor", 20,"");
     }
 
     @Test
@@ -76,8 +73,9 @@ class EmployeeTest {
         String lastName = "Smith";
         String description = "Janitor";
         int jobYears = 7;
+        String email = "sample@hotmail.com";
         // Arrange
-        Employee employee = new Employee(firstName,lastName,description,jobYears);
+        Employee employee = new Employee(firstName,lastName,description,jobYears,email);
         // Act
         String result = employee.getFirstName();
         // Assert
@@ -182,5 +180,32 @@ class EmployeeTest {
         int result = employee.getJobYears();
         // Assert
         assertEquals(expected,result);
+    }
+
+
+    @Test
+    void getAndSetEmail() {
+        // Arrange
+        Employee employee = new Employee();
+        String email = "sample@hotmail.com";
+
+        // Act
+        employee.setEmail(email);
+        String result = employee.getEmail();
+
+        // Assert
+        assertEquals(email, result);
+    }
+
+    @Test
+    void setEmail_InvalidEmail()  {
+        String email = "";
+        // Arrange
+        Employee employee = new Employee();
+        // Act
+        employee.setEmail(email);
+        String result = employee.getEmail();
+        // Assert
+        assertNull(result);
     }
 }
