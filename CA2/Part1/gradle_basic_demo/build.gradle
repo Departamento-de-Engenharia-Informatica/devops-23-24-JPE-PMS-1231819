@@ -79,6 +79,18 @@ task deleteBackup(type: Delete) {
     delete 'backup' // automating backup deleting
 }
 
+task createZip(type: Zip) {
+    from 'src'
+    archiveFileName = 'myZippedFile.zip'
+    destinationDirectory = file("$buildDir")
+}
+
+
+task deleteZip(type: Delete) {
+    delete file("$buildDir/myZippedFile.zip")
+}
+
+
 
 
 
