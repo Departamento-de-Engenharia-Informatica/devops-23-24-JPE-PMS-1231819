@@ -68,3 +68,18 @@ task runServer(type:JavaExec, dependsOn: classes){
 
     args '59001'
 }
+
+task backupSources(type: Copy) {
+    from 'src' // Source directory
+    into 'backup/src_backup' // Destination directory for backup
+
+}
+
+task deleteBackup(type: Delete) {
+    delete 'backup' // automating backup deleting
+}
+
+
+
+
+
