@@ -1,4 +1,4 @@
-import basic_demo.App;
+package basic_demo;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
