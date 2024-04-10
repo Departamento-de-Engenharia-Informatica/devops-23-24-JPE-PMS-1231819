@@ -23,6 +23,13 @@ repositories {
 	mavenCentral()
 }
 
+
+task copyJar(type: Copy,dependsOn: bootJar) {
+	from "build/libs"
+	into "dist"
+	include "*.jar"
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
