@@ -38,11 +38,13 @@ tasks.named('test') {
 
 task copyJar(type: Copy,dependsOn: bootJar) {
 	from "build/libs"
+	description "Copies jar into dist folder"
 	into "dist"
 	include "*.jar"
 }
 
 task deleteWebPack(type: Delete) {
+	description "deletes built/. webpack generated content"
 	delete 'src/main/resources/static/built'
 }
 clean.dependsOn(deleteWebPack)
