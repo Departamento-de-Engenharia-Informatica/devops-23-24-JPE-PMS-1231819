@@ -35,6 +35,10 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+bootRun {
+	systemProperty 'spring.datasource.url', 'jdbc:h2:mem:jpadb' // Override the datasource URL
+}
+
 
 task copyJar(type: Copy,dependsOn: bootJar) {
 	from "build/libs"
