@@ -71,7 +71,7 @@ on the same physical hardware.
 ````
 - Install java 
 ```` 
-  sudo apt install openjdk-8-jdk-headless - java without GUI tools as we are in a ubuntu-server
+  sudo apt install openjdk-18-jdk-headless - java without GUI tools as we are in a ubuntu-server
 ````
 - Install git 
 
@@ -133,6 +133,13 @@ the previous host only network creation steps) in port 8080 (default Tomcat serv
 - In our physical machine launch clients, typing:
 - Before that, we have to remember that we no longer want to connect to localhost but to a reachable VM 
 with the 192.168.56.5 ip. We must change the build.gradle file from *args 'localhost', '59001' to args '192.168.56.5', '59001'*.
+- Alternative we can also run the task with the command commands 
+
+````
+  gradlew.bat runClient --args="192.168.56.5 59001"
+
+````
+##### Running the client 
 ````
   - cd CA2/Part1/gradle_basic_demo
   - ./gradlew runClient - this runs a client that is going to connect to a server with 192.168.56.5 in
