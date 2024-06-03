@@ -172,3 +172,86 @@ that already exist and are in a stopped state:
 ```bash
     $ docker system prune
 ```
+
+### 7. Tag db image and web image and push them
+1. Tagging
+- Given that when I type:
+```bash
+    $ docker ps 
+```
+- This is the output:
+```bash
+    CONTAINER ID   IMAGE               COMMAND                  CREATED              STATUS              PORTS                                            NAMES
+    63e346998c12   dockercompose-web   "catalina.sh run"        About a minute ago   Up About a minute   0.0.0.0:8080->8080/tcp                           dockercompose-web-1
+    83e8dbfa6eab   dockercompose-db    "/bin/sh -c 'java -c…"   About a minute ago   Up About a minute   0.0.0.0:8082->8082/tcp, 0.0.0.0:9092->9092/tcp   dockercompose-db-1
+```
+- To tag web image:
+```bash
+   $ docker tag dockercompose-web afonsomaria1271819/compose-web:web
+```
+- To tag db image:
+```bash
+   $ docker tag dockercompose-db afonsomaria1271819/compose-db:db
+```
+- To check the recently tagged images
+
+```bash
+   $ docker images
+```
+- The output should be:
+```bash
+   REPOSITORY                       TAG       IMAGE ID       CREATED             SIZE
+  afonsomaria1271819/compose-web   web       a607c3f71563   About an hour ago   1.53GB
+  dockercompose-web                latest    a607c3f71563   About an hour ago   1.53GB
+  afonsomaria1271819/compose-db    db        4e4390c05574   About an hour ago   466MB
+  dockercompose-db                 latest    4e4390c05574   About an hour ago   466MB
+```
+2. Pushing
+
+- First let's login
+```bash
+    $ docker login
+```
+— After let's push our tags:
+
+```bash
+    $ docker push afonsomaria1271819/compose-web:web
+    
+    $ docker push afonsomaria1271819/compose-db:db
+```
+- To check in my docker hub profile the pushed images - [profile](https://hub.docker.com/repositories/afonsomaria1271819)
+
+### 8. Volumes (copy of the database file by using the exec to run a shell in the container and copying the database file to the volume)
+- To understand this part of the class assignment, we must further analyze what is happening in the docker compose file:
+```bash
+   db:
+  build: ./db
+  [...]
+  volumes:
+  - ./data:/usr/src/data-backup
+```
+- A volume named data is mounted to the /usr/src/data-backup directory inside the container.
+- Ensure that the ./data directory exists in the same location as your docker-compose.yml file on your host machine.
+  This is where the backup will be stored.
+- To start a bash session inside the db container type:
+
+```bash
+ $ docker-compose exec db bash
+```
+- Inside the container check for the database file:
+```bash
+ $ root@83e8dbfa6eab:/usr/src/app# ls
+```
+- The output should be something like this:
+```bash
+  h2-2.2.224.jar  jpadb.mv.db
+```
+- To copy the database file to the volume type:
+```bash
+  $ cp *.db /usr/src/data-backup
+```
+- Exit the container:
+```bash
+  $ exit
+```
+- **Then, on your host machine, navigate to the ./data directory (which corresponds to /usr/src/data-backup in the container)**
