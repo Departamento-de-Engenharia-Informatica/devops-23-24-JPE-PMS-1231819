@@ -161,7 +161,7 @@ It is part of the Docker Compose toolset:
 ```
 - This command stops the containers that already exist and are running and are in a stopped state:
 ```bash
-    $ docker compose start 
+    $ docker compose stop
 ```
 - This command starts the containers that were previously stopped with docker compose stop. It only works on containers 
 that already exist and are in a stopped state:
@@ -254,4 +254,5 @@ that already exist and are in a stopped state:
 ```bash
   $ exit
 ```
-- **Then, on your host machine, navigate to the ./data directory (which corresponds to /usr/src/data-backup in the container)**
+- **Then, on your host machine, navigate to the ./data directory (which corresponds to /usr/src/data-backup in the 
+container) and check if the .db file is there**
