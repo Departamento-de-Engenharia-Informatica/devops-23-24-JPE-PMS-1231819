@@ -1,0 +1,97 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Checking out the code...'
+                git credentialsId: 'GH-Cred', url: 'https://github.com/Departamento-de-Engenharia-Informatica/devops-23-24-JPE-PMS-1231819.git', branch: 'main'
+            }
+        }
+
+        stage('Prepare Environment') {
+            steps {
+                echo 'Setting file permissions...'
+                dir('CA2/Part2/react-and-spring-data-rest-basic') {
+                    echo 'Current directory:'
+                    sh 'pwd'
+                    echo 'Files before chmod:'
+                    sh 'ls -l'
+                    sh 'chmod +x ./gradlew'
+                    echo 'Files after chmod:'
+                    sh 'ls -l'
+                }
+            }
+        }
+
+        stage('Assemble') {
+            steps {
+                echo 'Assembling the application...'
+                dir('CA2/Part2/react-and-spring-data-rest-basic') {
+                    sh './gradlew assemble'
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running unit tests...'
+                dir('CA2/Part2/react-and-spring-data-rest-basic') {
+                    sh './gradlew test'
+                    sh 'pwd'
+                    sh 'ls'
+                    junit 'build/test-results/**/*.xml'
+                }
+            }
+            post {
+                always {
+                    dir('CA2/Part2/react-and-spring-data-rest-basic') {
+                        archiveArtifacts 'build/test-results/**/*.xml'
+                    }
+                }
+            }
+        }
+
+        stage('Javadoc') {
+            steps {
+                echo 'Generating Javadoc...'
+                dir('CA2/Part2/react-and-spring-data-rest-basic') {
+                    echo 'Ensuring gradlew has execute permission:'
+                    sh 'chmod +x ./gradlew'
+                    echo 'Current directory:'
+                    sh 'pwd'
+                    echo 'Files before running gradlew javadoc:'
+                    sh 'ls -l'
+                    sh './gradlew javadoc'
+                    echo 'Files after running gradlew javadoc:'
+                    sh 'ls -l build/docs/javadoc'
+                }
+            }
+        }
+
+        stage('Archive') {
+            steps {
+                echo 'Archiving the application...'
+                archiveArtifacts artifacts: 'build/**/*.war', allowEmptyArchive: true
+            }
+        }
+
+        stage('Publish Javadoc') {
+            steps {
+                echo 'Publishing Javadoc...'
+                dir('CA2/Part2/react-and-spring-data-rest-basic') {
+                    echo 'Files in build/docs/javadoc:'
+                    sh 'ls -l build/docs/javadoc'
+                    publishHTML target: [
+                        allowMissing: true, // Allow missing files to debug
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'build/docs/javadoc',
+                        reportFiles: 'index.html',
+                        reportName: 'Javadoc Report'
+                    ]
+                }
+            }
+        }
+    }
+}
