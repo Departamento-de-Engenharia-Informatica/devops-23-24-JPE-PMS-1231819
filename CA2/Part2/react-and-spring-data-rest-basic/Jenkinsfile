@@ -94,6 +94,8 @@ pipeline {
                         FROM tomcat:10.0.20-jdk17-temurin
 
                         COPY *.war /usr/local/tomcat/webapps/
+
+                        ENV SPRING_DATASOURCE_URL=jdbc:h2:mem:jpadb
                         """
                         writeFile file: 'Dockerfile', text: dockerfileContent
                     }
