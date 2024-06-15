@@ -20,8 +20,6 @@ pipeline {
             steps {
                 echo 'Setting file permissions...'
                 dir('CA2/Part1/gradle_basic_demo/') {
-                    sh 'pwd'
-                    sh 'ls'
                     sh 'chmod +x ./gradlew'
                 }
             }

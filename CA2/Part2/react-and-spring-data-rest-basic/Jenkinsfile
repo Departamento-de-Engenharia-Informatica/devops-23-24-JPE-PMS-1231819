@@ -18,13 +18,7 @@ pipeline {
             steps {
                 echo 'Setting file permissions...'
                 dir('CA2/Part2/react-and-spring-data-rest-basic') {
-                    echo 'Current directory:'
-                    sh 'pwd'
-                    echo 'Files before chmod:'
-                    sh 'ls -l'
                     sh 'chmod +x ./gradlew'
-                    echo 'Files after chmod:'
-                    sh 'ls -l'
                 }
             }
         }
@@ -43,8 +37,6 @@ pipeline {
                 echo 'Running unit tests...'
                 dir('CA2/Part2/react-and-spring-data-rest-basic') {
                     sh './gradlew test'
-                    sh 'pwd'
-                    sh 'ls'
                     junit 'build/test-results/**/*.xml'
                 }
             }
@@ -63,13 +55,7 @@ pipeline {
                 dir('CA2/Part2/react-and-spring-data-rest-basic') {
                     echo 'Ensuring gradlew has execute permission:'
                     sh 'chmod +x ./gradlew'
-                    echo 'Current directory:'
-                    sh 'pwd'
-                    echo 'Files before running gradlew javadoc:'
-                    sh 'ls -l'
                     sh './gradlew javadoc'
-                    echo 'Files after running gradlew javadoc:'
-                    sh 'ls -l build/docs/javadoc'
                 }
             }
         }
@@ -123,8 +109,6 @@ pipeline {
             steps {
                 echo 'Publishing Javadoc...'
                 dir('CA2/Part2/react-and-spring-data-rest-basic') {
-                    echo 'Files in build/docs/javadoc:'
-                    sh 'ls -l build/docs/javadoc'
                     publishHTML target: [
                         allowMissing: true, // Allow missing files to debug
                         alwaysLinkToLastBuild: true,
