@@ -453,10 +453,10 @@ your project's build process) to the current directory within the Docker build c
 - To complete the full class assignment, it would be interesting to implement a solution using a docker compose two automate the creation
 of two services and a network;
 
-### Blue Ocean docker file 
+#### Blue Ocean docker file 
 
-1. Maintain the blue ocean docker file that was already explained in this tutorial;
-2. Docker Compose 
+1. Maintain the blue ocean docker file that was already explained in this tutorial; 
+#### Docker Compose 
 ````bash
  version: '3'
 
@@ -543,6 +543,10 @@ an notice the volume related output, part we might see:
 
 **How to solve this?** Define a volume in Dind docker that points to /var/lib/docker and add a named volume definition
 docker compose file. 
+
+### Conclusion 
+
+Jenkins is a widely used open-source automation server that facilitates continuous integration and continuous delivery (CI/CD) of software projects. It automates the parts of software development related to building, testing, and deploying, thereby enhancing productivity and ensuring rapid delivery of high-quality software. Jenkins supports numerous plugins to integrate with various development, testing, and deployment tools, making it highly customizable and extensible. Its web-based interface simplifies configuration and management, making it a vital tool for DevOps practices and modern software development workflows.
 
 
 
